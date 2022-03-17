@@ -92,6 +92,7 @@ class Shimmer extends StatefulWidget {
     this.direction = ShimmerDirection.ltr,
     this.loop = 0,
     this.enabled = true,
+    this.hideOnDisabled = false,
   })  : gradient = LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.centerRight,
@@ -167,14 +168,15 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
     return AnimatedBuilder(
       animation: _controller,
       child: widget.child,
-      builder: (BuildContext context, Widget? child) => widget.hideOnDisabled && ! widget.enabled
-              ? child
+      builder: (BuildContext context, Widget? child) =>
+          widget.hideOnDisabled && !widget.enabled
+              ? child ?? const SizedBox.shrink()
               : _Shimmer(
-        child: child,
-        direction: widget.direction,
-        gradient: widget.gradient,
-        percent: _controller.value,
-      ),
+                  child: child,
+                  direction: widget.direction,
+                  gradient: widget.gradient,
+                  percent: _controller.value,
+                ),
     );
   }
 
